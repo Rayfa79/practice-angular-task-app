@@ -5,7 +5,7 @@ Angular the complete guide 2024 edition: Task-App
 
 ## Table of Contents
 - [Getting Started](#)
-- [Adding Header][(#)]
+- [Adding New Components][(#)]
 - [Resources](#resources)
 - [Meeting Notes](#meeting-notes)
 
@@ -17,7 +17,7 @@ Angular the complete guide 2024 edition: Task-App
 - [ ] Task 2
 - [x] Completed task
 
-## Header
+## Adding New Components
 - ng g c header
 - import header into component where being used
 - add to imports array
