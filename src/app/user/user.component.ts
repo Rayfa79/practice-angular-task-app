@@ -1,8 +1,8 @@
-import { Component,computed,signal } from '@angular/core';
-//import dummy users data array
-import { DUMMY_USERS } from '../dummy-users';
+import { Component,Input,computed,signal } from '@angular/core';
 
-const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
+
+
+
 
 
 @Component({
@@ -13,12 +13,15 @@ const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  selectedUser = signal(DUMMY_USERS[randomUser])
+  //allow property value to be settable from outside
+  @Input() avatar!: string
+  @Input() name!: string
 
- imagePath = computed(()=> 'assets/users/' + this.selectedUser().avatar)
+ get imagePath() {
+  return 'assets/users/' + this.avatar
+ }
 
   onSelectedUser() {
-    const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
-    this.selectedUser.set(DUMMY_USERS[randomUser])
+    
   }
 }
