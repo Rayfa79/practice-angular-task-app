@@ -13,4 +13,5 @@ const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
 })
 export class UserComponent {
   selectedUser = DUMMY_USERS[randomUser]
+  
 }
