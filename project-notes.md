@@ -9,9 +9,9 @@ Angular the complete guide 2024 edition: Task-App
 - [string interpolation](#string)
 - [property binding](#propery)
 - [using getters for computed value](#propery)
-- [property binding & outputting computed value](#propery)
+- [changing state of UI (old way- zone.js)](#propery)
 
-- [property binding & outputting computed value](#propery)
+- [changing the state of UI (new way: Signals)](#signals)
 - [Meeting Notes](#meeting-notes)
 
 ## Getting Started
@@ -36,7 +36,17 @@ Angular the complete guide 2024 edition: Task-App
 - [Resource Name](URL)
 - [Another Resource](URL)
 
-## Meeting Notes
+## Signal
+- IMPORT signal function from angular/core
+- create signal value and store in property within class
+- call set method on property when want to change properties value
+- TO GET VALUE OF SIGNAL PROPETY IN THE TEMPLATE: when calling property add an elipisis
+- TO GET COMPUTED VALUES: don't USE GETTERS:
+-      a. import computer function from angular/core
+-      b. create variable for prop you want computed
+-      c. set prop equal to computed which takes in function
+-      d. return computed value in function body
+-      e. READ computed value in template by adding prop(w/out brackets)..add elipsis
 
 ### Meeting Date: YYYY-MM-DD
 #### Attendees
