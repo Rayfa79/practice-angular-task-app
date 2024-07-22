@@ -14,7 +14,7 @@ Angular the complete guide 2024 edition: Task-App
 - [changing the state of UI (new way: Signals)](#signals)
 - [Defining Component Inputs](#meeting-notes)
 - [Required and optional inputs](#meeting-notes)
-- [Meeting Notes](#meeting-notes)
+- [Using Signal inputs instead of @Input](#meeting-notes)
 
 
 ## Getting Started
@@ -76,9 +76,15 @@ Angular the complete guide 2024 edition: Task-App
 - TO GET COMPUTED VALUES: don't USE GETTERS:
 -      a. import computer function from angular/core
 -      b. create variable for prop you want computed
--      c. set prop equal to computed which takes in function
+-           selectedUser = signal(value you want to change)
+-      c. If you want a value in the template computed add this in component
+           imagePath= computed( ()=> 'assets/users/' + this.selectedUser().avatar)
 -      d. return computed value in function body
+-      e. To change the value upon click event
+-          1. in click event function you must SET the proprety to be changed
+-          2. this.selectedUser.set( value you want to change to)
 -      e. READ computed value in template by adding prop(w/out brackets)..add elipsis
+
 
 ## Defining component inputs ( Required and optional inputs)
 - component class properties can be SET from the outside (parent component has the data)
@@ -90,9 +96,27 @@ Angular the complete guide 2024 edition: Task-App
 - Use typscript to tell Angular the data type to be expected
 - if require property not added then the property will be optional in template
 
-## Resources
-- [Resource Name](URL)
-- [Another Resource](URL)
+
+## Using Signal for inputs instead of @Input
+- import input...not INPUT(this is a decorator and used w/old @Input())
+- set property EQUAL to input().....avatar= input() ...this produces a Signal
+- add the typescript generic type that will be expected: avatar = input<string>()
+- you may also make the input REQUIRED: avatar = input.required<string>()
+- you can set an INITAL value for the input: avatar = input('') (this sets as a string)
+- in the COMPONENT CLASS where the signal is being set just set up the property like normal!
+-  <app-user [avatar]="user" />
+-  exports class AppCompoenent{
+       user= DUMMY-Data
+}
+- In the TEMPLATE of the signal property you must call the signal property
+-     <span>{{ avatar() }}
+- Remember for computed values dont user getters rather computed!!!!
+- imagePath = computed(()=> {
+    return 'assets/users' + this.avatar()
+})
+- to execute image path in template: <img [src]= imagePath()>
+- TIP: when using input signals they are read ONLY from in the component you may not use set() to change them like we can with regular SIGNALS
+- TIP: this project will not use signals input instead @Input decorator!
 
 
 ### Meeting Date: YYYY-MM-DD

@@ -1,4 +1,4 @@
-import { Component,Input,computed,signal } from '@angular/core';
+import { Component,Input,computed,input,signal } from '@angular/core';
 
 
 
@@ -14,12 +14,19 @@ import { Component,Input,computed,signal } from '@angular/core';
 })
 export class UserComponent {
   //allow property value to be settable from outside
-  @Input({required: true}) avatar!: string
-  @Input({required: true}) name!: string
+  // @Input({required: true}) avatar!: string
+  // @Input({required: true}) name!: string
+  //Using Signals for component input
+  avatar = input.required<string>()
+  name = input.required<string>()
 
- get imagePath() {
-  return 'assets/users/' + this.avatar
- }
+//using signals computed to get image path
+ imagePath = computed(()=> {
+  return 'assets/users/' + this.avatar()
+ })
+//  get imagePath() {
+//   return 'assets/users/' + this.avatar
+//  }
 
   onSelectedUser() {
     
