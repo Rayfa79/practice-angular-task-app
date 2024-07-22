@@ -6,7 +6,12 @@ Angular the complete guide 2024 edition: Task-App
 ## Table of Contents
 - [Getting Started](#)
 - [Adding New Components][(#)]
-- [Resources](#resources)
+- [string interpolation](#string)
+- [property binding](#propery)
+- [using getters for computed value](#propery)
+- [property binding & outputting computed value](#propery)
+
+- [property binding & outputting computed value](#propery)
 - [Meeting Notes](#meeting-notes)
 
 ## Getting Started
