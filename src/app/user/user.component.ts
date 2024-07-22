@@ -4,6 +4,7 @@ import { DUMMY_USERS } from '../dummy-users';
 
 const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
 
+
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -16,5 +17,10 @@ export class UserComponent {
 
   get imagePath() {
     return 'assets/users/' + this.selectedUser.avatar
+  }
+
+  onSelectedUser() {
+    const randomUser = Math.floor(Math.random() *DUMMY_USERS.length)
+    this.selectedUser = DUMMY_USERS[randomUser]
   }
 }
