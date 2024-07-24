@@ -13,6 +13,10 @@
     }
     
   </ul>
-
-  <app-tasks [name]="selectedUser?.name"/>
+   @if(selectedUser){
+    <app-tasks [name]="selectedUser.name"/>
+    }@else {
+     <p id="fallback"> Please Select a User </p>
+   }
+  
 </main>
