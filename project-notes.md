@@ -16,7 +16,7 @@ Angular the complete guide 2024 edition: Task-App
 - [Required and optional inputs](#meeting-notes)
 - [Using Signal inputs instead of @Input](#meeting-notes)
 
-## Notes
+## Notes: Section 2: Angular Essentials- Components, Templates, Services & More
 - [Getting Started](#)
 - [Adding New Components][(#)]
 - [string interpolation](#string)
@@ -266,17 +266,61 @@ Angular the complete guide 2024 edition: Task-App
 - SYNTAX: <app-tasks *ngIf = "selectedUser; else fallback" [name]="selectedUser!.name">
 - TO ADD ELSE CLAUSE: <ng-template #fallback> <p id="fallback">Select a user to see their tasks!</p> </ng-template>
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
+#### 44 & 45: Adding a Task Component & Outputting User Specific Tasks
+- Create task component and add INSIDE TASKS component:  ng g c tasks/task --skip-tests
+- Add <app-task> to TASKS TEMPLATE
+- Add dummy task data to Parent Tasks component. Will be an array of task objects
+- GOAL: To display a single users tasks when a user is clicked. We will NEED THE USERS ID
+- STEPS: 
+- 1. In tasks component: GET users ID from the app component
+- @Input({required:true}) id?: string
+- Once we have that id we should FILTER the TASKS array and only RETURN an filtered TASKS array if the tasks.userId === this.id
+- get selectedUserId() { this.tasks.filter(task) task.userId === this.id}
+- NOW TO DISPLAY ONLY THE TASK THAT MATCHES THE ID
+- 1. In app component template: in the <app-tasks [id]="getter method that finds http data id that matchs id (tasks)">. THIS GETS USER ID THAT IS CLICKED AND PASSES TO TASKS COMP.
+- 2. YAY not the tasks component has the current id and can use its gettter method to ONLY return the task w/the id that matches the id from the app component
+- 3. @for(task of (ADD NAME OF GETTER METHOD IN TASKS COMPONENT);  track task.id) { <li> <app-task /> </li>}
 - [ ] Action 2: Assigned to Person
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 46. Passing Task Data to <app-task> component thats made available in the for loop! And using that data in the task component
+- In task template we want to output the task name, time, and summary
+- So in task component add a @Input property that accepts ENTIRE task OBJECT from the outside and pulls out only the property needed
+- FIRST create an interface or type object that will shape the expected data
+- type Task = {
+    id: string;
+    userId: string;
+    title: string;
+    summary: string;
+    dueDate: string;
+}
+- or: interface Task {
+    id: string;
+    userId: string;
+    title: string;
+    summary: string;
+    dueDate: string;
+}
+- @Input({required: true}) task!: Task
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+
+- NEXT, in tasks component BIND this new task property (from task comp.) to the task OBJECT thats recieved from tasks component
+- <ul>
+     @for( task of seelctedUserTasks; track task.id) {
+        <li>
+           <app-task [task]="task" />
+        </li>
+     }
+- You can now EXTRACT the needed properties in order to display that data in the TASK TEMPLATE!!!
+- <h2>{{task.title}} </h2>
+- <time>{{task.dueDate}} </time> ect
+
+#### 47. Storing Data Models in separate files
+- Outsource data interfaces and type definitions into a separate Model file
+- Add this file in the FOLDER for the which the data model belongs
+- CREATE: task.model.ts
+- in the file create then EXPORT the interface
+- IMPORT the model in the comp. where its being used: you may OPTIONALY add the word type in front of the User
+- import { type User } from './user.model'
 
 #### Action Items
 - [ ] Action 1: Assigned to Person
