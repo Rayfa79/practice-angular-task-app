@@ -16,6 +16,33 @@ Angular the complete guide 2024 edition: Task-App
 - [Required and optional inputs](#meeting-notes)
 - [Using Signal inputs instead of @Input](#meeting-notes)
 
+## Notes
+- [Getting Started](#)
+- [Adding New Components][(#)]
+- [string interpolation](#string)
+- [property binding](#propery)
+- [using getters for computed value](#propery)
+- [changing state of UI (old way- zone.js)](#propery)
+
+- [changing the state of UI (new way: Signals)](#signals)
+- [Defining Component Inputs](#meeting-notes)
+- [Required and optional inputs](#meeting-notes)
+- [Using Signal inputs instead of @Input](#meeting-notes)
+- [How to emit your own events w/ @Output ](#meeting-notes)
+- [More modern approach using output function](#meeting-notes)
+- [Using Signal inputs instead of @Input](#meeting-notes)
+- [38. Working w/potentially undefined values and union types](#meeting-notes)
+- [39. Accepted OBJECTS as inputs and adding its type INLINE](#meeting-notes)
+- [40. Adding objects TYPES as an type alias OR INTERFACE](#meeting-notes)
+- [41. Outputting List Content @for(user of users){} MODERN WAY](#meeting-notes)
+- [42. Ouputting Conditional Content](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
+- [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
 
 ## Getting Started
 - create new app: ng new ____
@@ -119,14 +146,153 @@ Angular the complete guide 2024 edition: Task-App
 - TIP: this project will not use signals input instead @Input decorator!
 
 
-### Meeting Date: YYYY-MM-DD
-#### Attendees
-- Person 1
+### How to emit your own events w/ @Output 
+- Task: we want to output data from one component to another when button clicked
+- let app component know when a button is clicked in user template then output that data
+- STEPS: 
+- 1. We want to send(output) data to another comp. when a button is clicked
+- 2. Create a property w/@Output decorator and set to new EventEmitter()
+-    a. @Output() select = new EventEmitter()
+-    b. make sure to set it comp. class
+- 3. Create a click event and set equal to a method (anyname)
+-    a. we will now send the select eventEmitter when the button is clicked
+-    b. <button (click)= "onSelectUser()>
+- 4. Create a method that will use select property to emit a new value
+-    1. Max said you do not have to pass in a value. test to see whats emitted then
+-    2. Max passed a value into emit
+-       a. this.select.emit(this.id)
+-       b. in the comp. class create an @Input property called id that will be set from outside:   @Input({required: true}) id!: string
+-       c. this is the value that we will emit to the parent component when clicked
+-       d. this.select.emit(this.id)
+- 5. In the parent component template: in the app-user set [id]="property value in parent  comp."
+-      a. <app-user [id]="users[2].name" />
+- 6. In parent component use eventBinding on @Output property to listen to custom event
+-    a. <app-user (select)="add name of method that will receive event">
+-    a. <app-user (select)="onSelect($event)"/>
+-    b. create a method in parent comp. that will receive the eventEmitter data
+-    c. onSelect(id: string) {
+
+}
+#### More modern approach using output function
+- instead of using @Output() decorator use output() function
+- inport output (lowercase)
+- create a property where you want data outputted
+- set equal to output()
+-         select = output<string>().....behind hood include new Eventemitter
+- Next, output the select event in the click event method
+- onSelectUser() {
+    select.emit(this.id)
+}
+- use eventBinding in appComp template as usual 
+- <app-user (select)="onSelectUser($event)" />
 - Person 2
 
-#### Discussion Points
-1. Point 1
-2. Point 2
+#### 38. Working w/potentially undefined values and union types
+- If a value is returned that could POSSIBLY be undefined you will get a runtime error
+- In the terminal: ✘ [ERROR] NG2: Object is possibly 'undefined'. [plugin  angular-compiler]
+- or in the template: "property name has no initialzer.......
+- SOLUTION: add ? after property (tells typscript value will be string or undefined
+-      exp: @Input() name?: string
+-      exp: <app-header [name]="selectedUser?.name"> (if selected user then add value if 
+-                                                      not add undefined)
+-      exp: <app-header [name]="selectedUser ? selectedUser.name: '' ">
+-      means if there is a selected user then return the name else return empty string
+- You may also add an ! after propety or function to let know there will be a non 
+-  undefined value
+- ALTERNATIVE TO USING QUESTION MARK! using a UNION TYPE
+-     exp: @Input() name: string | undefined
+- TIP: remove required: true if theres a possibility of getting an undefined value!!!
+-    exp: @Input(required: true) name!: string (! tells TS there will definitly be value
+-                                                 returned)
+-    exp: remove and add: @Input() name?: string or @Input() name: string | undefined;
+
+#### 39. Accepted OBJECTS as inputs and adding its type INLINE
+- You can accept an OBJECT as an input
+- You must give each of the objects properties a TYPE
+- @Input({required: true}) user!: {
+    id: string;
+    avatar: string;
+    name: string
+}
+- Make sure to add ! to tell TS the object will DEFINITELY be defined
+- make sure to adjust the properties in the template to use USER.name, ect
+- TIP: its preferred to use an INTERFACE for the object type instead of inline!
+
+#### 40. Adding objects TYPES as an type alias OR INTERFACE]
+- In component BELOW IMPORTS add a type alias OR Interface for object types:
+- TYPE ALIAS
+- type User = {
+    id: string;
+    avatar: string;
+    name: string
+}
+- INTERFACE
+- interface User {
+    id: string;
+    avatar: string;
+    name: string;
+}
+- To use in the class:
+-    @Input({required: true}) user!: User
+
+#### 41. Outputting List Content @for(user of users){} MODERN WAY
+1. DYNAMICALLY outputting a list of content
+2. MODERN WAY: @for( user of users (this is a property in the component)){add list you
+                                               want dynamically added here}
+3. You may also TRACK each list item using a property
+-           exp: track user.id
+-    @for(user of users; track user.id) {
+        <li>
+           <app-user [user]="user" (onSelect)="$event" />
+        </li>  
+}
+
+
+#### 42- Outputting Conditional Content
+- USE CASE: only render tasks component if there is a selectedUser: else add text
+- use @if(conditional){elements you want rendered} optional else if or else clause
+- example:  @if(selectedUser) {
+        <app-tasks [name]="selectedUser.name"/>
+}@else {
+    <p id="fallback">Please Select a User
+</p>}
+- [ ] Action 2: Assigned to Person
+
+#### 43- Legacy Angular: ngFor and ngIf
+- ngFor and ngIf are STRUCTURAL DIRECTIVES
+- TO USE: IMPORT into comp. where being used. also add to IMPORTS ARRAY in comp.
+- SYNTAX: <li *ngFor = " let user of users">: add to element you want repeated!
+- ngIf: Add w/in tag of element or component that you want conditional rendered.
+- SYNTAX: <app-tasks *ngIf = "selectedUser; else fallback" [name]="selectedUser!.name">
+- TO ADD ELSE CLAUSE: <ng-template #fallback> <p id="fallback">Select a user to see their tasks!</p> </ng-template>
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
+
+#### Action Items
+- [ ] Action 1: Assigned to Person
+- [ ] Action 2: Assigned to Person
 
 #### Action Items
 - [ ] Action 1: Assigned to Person
