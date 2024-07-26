@@ -31,6 +31,7 @@ export class UserComponent {
   // @Input({required: true}) id!: string
   //refactor the above Inputs to use Object instead of individual properties
   @Input({required: true}) users!: User;
+  @Input({required: true}) selected!: boolean;
 
   //create custom eventEmitter that emits data upon button click
   @Output() select = new EventEmitter<string>()

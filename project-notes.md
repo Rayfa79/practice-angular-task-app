@@ -152,15 +152,16 @@ Angular the complete guide 2024 edition: Task-App
 - STEPS: 
 - 1. We want to send(output) data to another comp. when a button is clicked
 - 2. Create a property w/@Output decorator and set to new EventEmitter()
--    a. @Output() select = new EventEmitter()
+-    a. @Output() select = new EventEmitter<string>()
 -    b. make sure to set it comp. class
+
 - 3. Create a click event and set equal to a method (anyname)
 -    a. we will now send the select eventEmitter when the button is clicked
 -    b. <button (click)= "onSelectUser()>
+
 - 4. Create a method that will use select property to emit a new value
 -    1. Max said you do not have to pass in a value. test to see whats emitted then
 -    2. Max passed a value into emit
--       a. this.select.emit(this.id)
 -       b. in the comp. class create an @Input property called id that will be set from outside:   @Input({required: true}) id!: string
 -       c. this is the value that we will emit to the parent component when clicked
 -       d. this.select.emit(this.id)
@@ -322,13 +323,50 @@ Angular the complete guide 2024 edition: Task-App
 - IMPORT the model in the comp. where its being used: you may OPTIONALY add the word type in front of the User
 - import { type User } from './user.model'
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 48. Dynamic CSS Styling w/ Class Binding
+- Goal: want to style the user button by conditionally adding a css class ONLY when the user is selected
+- STEPS: In user.component.css: create a class called .active
+-     button: hover,
+-     button: active,
+-     .active {
+         background-color: #9965dd;
+        color: black;
+-      }
+- CONDITIONALLY ADD .active CSS CLASS TO BUTTON(in user component template) ONLY IF USER SELECTED
+- STEPS:
+- 1. find out if user is selected: this information is stored in APP. COMPONENT"S selectedUserId?: string; property
+- 2. In user component template we need this information! add: @Input({required: true}) selected!: boolean;
+- 3. Now in APP.TEMPLATE where <app-user> is rendered add:
+- 4.   <li *ngFor="let user of users">
+        <app-user 
+        [users]="user"
+        [select]="user.id === selectedUserId" .......RETURN truthy if user id from users loop equals selectedUserId from app component!
+        (select)="onSelectUser($event)"
+        />
+      
+      </li>
+- 5. If the above returns TRUTHY then we can use the select property value in the user comp. template to conditionlly add a css class
+- 5. Within the button tag BIND the class then add a . to bind the class you want to conditionally add!
+- 6. <button [class.active]=" to a true or fasle value that determines if call will be added >
+-            <button [class.active]="select"> </button>
+- 7. This will conditionally add that class to button if selected is true
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 49. Deleting Tasks when the COMPLETED BUTTON in the task component is clicked
+- 1. In the task template Add a click event to the completed button
+-    <button (click)=onCompleteTask()> Complete </button>
+- 2. In the Task Component: create an onCompleteTask method: 
+- 3. We need to emit an event to the parent TASKS component
+-         in the task component create: @Output() completed: new eventEmitter<string>()......this will emit some data to the parent container
+- 4. What data should we emit to the parent container!?: We have a task property in task component. we want to send the task.id!!!!!
+- 5. onCompleteTask() {
+          this.complete.emit(this.task.id)
+-       }
+- 6. IN PARENT TASKS TEMPLATE:
+-    <app-task [task] ="task" (completed)="onCompleteTask($event)">
+- 7. IN TASKS COMPONENT: 
+-           onCompletTask(id: string){
+              this.tasks = this.tasks.filter((tasl)=> task.id !== id)
+-         }
 
 #### Action Items
 - [ ] Action 1: Assigned to Person
