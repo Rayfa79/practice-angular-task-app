@@ -365,7 +365,7 @@ Angular the complete guide 2024 edition: Task-App
 -    <app-task [task] ="task" (completed)="onCompleteTask($event)">
 - 7. IN TASKS COMPONENT: 
 -           onCompletTask(id: string){
-              this.tasks = this.tasks.filter((tasl)=> task.id !== id)
+              this.tasks = this.tasks.filter((task)=> task.id !== id)
 -         }
 
 #### Action Items
