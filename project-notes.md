@@ -455,7 +455,33 @@ Angular the complete guide 2024 edition: Task-App
                     
               
 
-#### 51. Closing the new-task dialog
+#### 56. Content Projection via ng-content
+- Use Case: want to share CSS styling amongst different components. Could add
+  a global CSS style and share amongst components OR share using ng-content
+- GOAL: create reusable card component to be used across components
+        Use in user-component template to wrap BUTTONS
+        Use in New-Task template to wrap articles
+- STEPS for using ng-content
+- 1. create a component in a SHARED folder in the app
+     ng g c shared/card --skip-tests
+- 2. in card templete add:
+     <div>
+        <ng-content>
+     </div>
+- 3. CUT div styles from user component css files and add to card css styles
+       div {
+          border-radius: 6px;
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+       }
+- 4. use CARD COMPONENT Selector AS A WRAPPER in components where u want to use styles
+       <app-card>
+        <button>Close</button>
+        <img>
+        <span>Hi</span>
+       </app-card>
+- 5. IMPORT the <app-card> component into EACH component its used in!!!!!
+- 6. Content projection: to keep component markup ADD ng-content IN card TEMPLATE!
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog

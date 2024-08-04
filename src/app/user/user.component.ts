@@ -1,5 +1,6 @@
 import { Component,Input,Output,computed,input,output,signal } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { CardComponent } from '../shared/card/card.component';
 
 //Use interface or type alias for object types
 interface User {
@@ -20,7 +21,7 @@ interface User {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [],
+  imports: [CardComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
