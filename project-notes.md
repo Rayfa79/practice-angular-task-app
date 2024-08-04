@@ -368,20 +368,98 @@ Angular the complete guide 2024 edition: Task-App
               this.tasks = this.tasks.filter((task)=> task.id !== id)
 -         }
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 50. Adding a new-task dialog that renders conditionally
+- GOAL: create a new component Inside of the tasks folder called 
+-       new task. When the add new task button in clicked within
+-       the TASKS TEMPLATE then render a form that allows a user
+-       to create a NEW TASK
+- STEPS:
+- 1. create new-task component: ng g c tasks/new-task --skip-tests
+- 2. IMPORT new-task component in TASKS COMPONENT/add to imports array
+- 3. ADD <app-new-task /> to TASKS TEMPLATE
+- 4. In TASKS TEMP>: add <button (click)="onAddTask()">
+- 5. In TASKS COMP. add: isDialogOpen = false;
+- 6. In TASKS COMP: add 
+-       onAddTask(){
+            this.isDialogOpen = !isDialogOpen;
+-            }
+- 6. Conditionaly render in TASKS TEMPLATE within <app-new-task>
+-    @if(isDialogOpen) { <app-new-task />}
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 51. Closing the new-task dialog
+- GOAL: Close the new-task dialog when a user clicks anywhere within
+-       the dialog element or clicks the CLOSE button 
+- STEPS: 
+- 1. In New-Task Temp: add click events to BUTTON and DIALOG element
+-    <button (click)="onClose()">, <dialog (click)="onClose()">
+- 2. We need to OUTPUT an event to TASKS component to trigger the
+-    isDialogOpen property to be set to FALSE
+- 3. In NEW-TASK-COMPONENT: create a property to hold emitted event
+-    @Output({required: true}) close! = new eventEmitter<void>();
+- 4. In NEW-TASK-COMPONENT: add onClose() that emits event
+-       onClose(){
+            this.close.emit();
+-         }
+- TIP: this emits no DATA: just want to notify TASKS comp. that button 
+-      was clicked so it can run a method that toggles isDialogAdded
+- 5. In TASKS TEMPLATE: <app-new-task (close)="onAddClass()"/>
 
-#### Action Items
-- [ ] Action 1: Assigned to Person
-- [ ] Action 2: Assigned to Person
+#### 52,54,55: Using Directives and Two-way Binding: Getting Form Input Values and ADDING them to TASKS array when from submitted
+- Using the two-way binding via the directive [(ngModel)]: lets you listen to the input AND output the data
+- Use Case: use on the <input [(ngModel)]="enteredName"> lets you grab user inputted data! Must bind to a prop. in component!
+- STEPS:
+- 1. REGISTER the ngModel in the component!
+-     import {FormsModule} from '@angluar/forms'
+-     imports: [FormsModule]
+- 2.  Add ngModel to INPUT elements and BIND to a property in the component
+-       <input [(ngModel)]="enteredName">
+- 3.  Input values EVEN DATES output STRINGS: set property in component to an empty string
+-          enteredName = ""
+- 4. Prevent the default of sending form to SERVER when submit button clicked. THis will automatically be done w/ fromsModule imported
+- 5. LISTEN for form submission and run own code via event binding
+-        <form (ngSubmit)="onSubmit()">: DONT FORGET PARENTHESIS TO RUN CODE
+- 6. Now add [(ngModel)]"create a property" to each
+-    input element (we need to send this data to
+-    the task component)
+- 7. Send form submision TASK data to task component via @Output and an eventEmitter
+-    @Output() add = new eventEmitter<>();
+- 8. You must add the GENERIC data types being 
+-    submitted.
+- 9. Create a data INTERFACE in task> model folder
+- 10. export interface newTaskData {
+            title: string;
+            summary: string;
+            date: string;
+-      }
+- 11. IMPORT newTaskData into new-task-component and 
+      add data model to @Output() add property
+- 12. Emit add property in the onSubmit() method
+-     onSubmit() {
+          this.add.emit({
+            title: this.enteredTitle,
+            summary: this.enteredSummary,
+            date: this.enteredDate
+          })
+-      }
+-  13. We Want To Add a New Task to the tasks array. How do we get our data there?
+-      a. Add eventBinding in TASK : to the <new-task-app (add)="onAddTask($event)">
+       b. In TASK COMPONENT add onAddTask method (IMPORT newTaskData from TASK Model)
+       c.     onAddNewTask(taskData: NewTaskData){
+                    this.task.push({
+                        id: ,
+                        dueDate: taskData.date,
+                        title: taskData.title,
+                        summary: taskData.summary
+                    })
+                    this.isTaskAdded = false;
+                    
+              
 
----
-
+#### 51. Closing the new-task dialog
+#### 51. Closing the new-task dialog
+#### 51. Closing the new-task dialog
+#### 51. Closing the new-task dialog
+#### 51. Closing the new-task dialog
 ## Code Snippets
 ```python
 # Example code snippet

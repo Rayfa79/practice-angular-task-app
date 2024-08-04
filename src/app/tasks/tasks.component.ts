@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { NgFor } from '@angular/common';
 import { NewTaskComponent } from './new-task/new-task.component';
+import { NewTaskData } from './task/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -53,4 +54,17 @@ onCompleteTask(id: string) {
 onAddTask() {
   this.isTaskAdded = !this.isTaskAdded;
 }
+
+onAddNewTask(newTask: NewTaskData){
+  this.tasks.push({
+    id: new Date().getTime().toString(),
+    userId: this.userId,
+    title: newTask.title,
+    summary: newTask.summary,
+    dueDate: newTask.dueDate
+  })
+  this.isTaskAdded = !this.isTaskAdded;
+}
+
+
 }
