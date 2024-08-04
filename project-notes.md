@@ -482,7 +482,14 @@ Angular the complete guide 2024 edition: Task-App
        </app-card>
 - 5. IMPORT the <app-card> component into EACH component its used in!!!!!
 - 6. Content projection: to keep component markup ADD ng-content IN card TEMPLATE!
-#### 51. Closing the new-task dialog
+#### 57. Tranforming Template Data w/ pipes
+- Use Case: In Task Component Template change dueDate to different format via
+  built in Angular pipe
+- STEPS:
+- 1. IMPORT date pipe from Angular Common and add to imports array
+     import {DatePipe} from '@angular/common'
+- 2. Transfrom the date in Task Template
+     <time>{{ task.dueDate | date:'fullDate' }} </time>
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
