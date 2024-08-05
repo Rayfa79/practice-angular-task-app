@@ -538,7 +538,7 @@ Angular the complete guide 2024 edition: Task-App
             When page refreshes FETCH tasks and UPDATE tasks when added or deleted
 1. IN TASK SERVICE CONSTRUCTOR (will auto run on page refresh) on page load
    create variable called tasks that will save the tasks in local storage
-   ----constructor(const tasks = localStorage.getItem('task')){}
+   ----constructor()){const tasks = localStorage.getItem('task'}
 2. Create conditional if tasks were found in local storage set tasks property to tasks
    variable if no tasks then use the tasks array in the TASKS COMPONENT
    ---if(tasks){

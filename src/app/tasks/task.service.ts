@@ -30,7 +30,11 @@ private tasks = [
     dueDate: '2024-06-15',
   },
 ]
-  constructor() { }
+  constructor() { const tasks = localStorage.getItem('tasks')
+    if(tasks){
+      this.tasks = JSON.parse(tasks)
+    }
+  }
 
   //filter tasks array to ONLY include tasks that match passed in userID
   getUserTasks(userId: string) {
@@ -46,9 +50,15 @@ private tasks = [
       summary: newTask.summary,
       dueDate: newTask.dueDate
     })
+    this.saveTasks()
   }
 
   removeTask(id: string) {
-    this.tasks = this.tasks.filter((task)=> task.id !== id)
+    this.tasks = this.tasks.filter((task)=> task.id !== id);
+    this.saveTasks()
+  }
+
+  private saveTasks(){
+    localStorage.setItem('tasks', JSON.stringify(this.tasks))
   }
 }
