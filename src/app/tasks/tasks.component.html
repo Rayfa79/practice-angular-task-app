@@ -31,7 +31,7 @@
 
     <article>
         @if(isTaskAdded){
-            <app-new-task (close)="onAddTask()" (add)="onAddNewTask($event)"/>
+            <app-new-task (close)="onCloseTask()"  (open)= "onAddTask()" [userId]="userId"/>
         }
         
     </article>

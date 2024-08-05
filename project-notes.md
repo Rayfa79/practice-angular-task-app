@@ -490,6 +490,71 @@ Angular the complete guide 2024 edition: Task-App
      import {DatePipe} from '@angular/common'
 - 2. Transfrom the date in Task Template
      <time>{{ task.dueDate | date:'fullDate' }} </time>
+#### 58,59: Services
+- 1. Keep Components and Templates LEAN: USE SERVICES to manage DATA!!!!
+- 2. Create a task service
+     ng g s tasks/task
+- 2. MOVE TASKS array to the task service service mark it as private
+     and use METHODS to get data
+- 3. create the following methods: one to GET tasks by userId, ADD a new task which
+     takes in taskData: newTaskData AND userID and DELETE tasks which takes in id
+     We already have to method logic.
+- 4. IMPORT task service to TASKS component
+- 5. REGISTER  task service as INJECTABLE  and import (will auto when create using cli)
+     - @Injectable({
+       providedIn: 'root'
+       })
+- 5. INSTANTIATE CLASS TO USE SERVICE: 
+     1. use DEPENDENCY INJECTION via the constuctor
+        a.  constructor( private taskService: TaskService){}
+    2. Use service in tasks methods to get data
+        b. getSelectedUserTasks(){
+             return this.taskService.getUserTasks(this.userId)
+        }
+#### 60. ALTERNATIVE WAY TO INSTANTIATE a SERVICE VIA INJECT() FUNCTION
+- USE CASE: in newTask Component use a service to add a new task to the task array instead
+            of the @Output add eventEmitter!!!!!!!! (remember service handles data!)
+- 1. Use the inject() function instead of constructor function
+     - IMPORT taskService into newTaskComponent
+     - create a new property to store the service and insantiate w/ inject funciton
+     - private taskService = inject(TaskService)
+- 2. IN newTaskComponent GET RID OF @Output add  EVENTEMITTER AND USER SERVICE
+     - onSubmit(){
+        this.taskService.addTask({
+            title: this.enteredTitle,
+            summary: this.enteredSummary,
+            date: this.enteredDate
+        }),
+        this.userId
+     }
+- 3. Will need to get userId from the outside using @Input
+      - @Input({required: true}) userId!: string
+      - in TASKS component get userId<app-new-task [userId]="userId">
+      - Still use @Output eventEmmiter to close dialog
+- 4. EMIT close eventemitter in onSubmit() AFTER calling taskService
+     - this.close.emit()
+#### 62. Using Local Storage to Store Tasks Array
+- USE CASE: on page referesh  our tasks will be lost. Persist data to local storage
+            When page refreshes FETCH tasks and UPDATE tasks when added or deleted
+1. IN TASK SERVICE CONSTRUCTOR (will auto run on page refresh) on page load
+   create variable called tasks that will save the tasks in local storage
+   ----constructor(const tasks = localStorage.getItem('task')){}
+2. Create conditional if tasks were found in local storage set tasks property to tasks
+   variable if no tasks then use the tasks array in the TASKS COMPONENT
+   ---if(tasks){
+        this.tasks = JSON.parse(tasks)
+      }
+3. MUST parse tasks back to an ARRAY. items in localStorage will be in JSON string format
+4. UPDATE tasks in local storage whenever SAVED or REMOVED
+   - 1. CREATE PRIVATE FUNCTION that SAVES tasks to task KEY in local storage whenever
+        removeTask() function or addTask() function is run
+   - 2. private saveTasks(){
+         localStorage.setItem('tasks', JSON.stringigy(this.tasks))
+      }
+   - 3. Add this function AFTER removeTask() function and addTask()function
+        - this.saveTasks()
+5. To see tasks in localStorage: devTools>applications>storage>localStorage>see task key!
+#### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
