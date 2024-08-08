@@ -554,8 +554,64 @@ Angular the complete guide 2024 edition: Task-App
    - 3. Add this function AFTER removeTask() function and addTask()function
         - this.saveTasks()
 5. To see tasks in localStorage: devTools>applications>storage>localStorage>see task key!
-#### 51. Closing the new-task dialog
-#### 51. Closing the new-task dialog
+#### 65. Standalone Components vs Modules
+- WHATS THE DIFFERENCE BETWEEN STANDALONE COMP. AND MODULES?
+- 1. there is NO APP MODULE: you do NOT define components w/in module
+- 2. Single responsibility principle:  standalone flag which is all Angular needs to mark a component as a standalone components. The other being the imports array which is used to define the modules, services, pipes or components that the component will use
+-  WHAT ARE THE PROS OF A STANDALONE VS MODULES
+- 
+-  WHAT ARE THE STEPS TO CREATING AND REGISTERING COMPONENTS IN THE APP. MODULE
+-  1.  CREATING A NEW PROJECT W/MODULES (by DEFAULT angular uses standalone components)
+      - ng new my-app --no-standalone
+-  2. CREATING app.module FOR EXISTING PROJECT THAT USES STANDALONE 
+      - ng generate module app --flat --module=app
+      - generate module: Creates a new module
+      - app: Names the module "AppModule"
+      - --flat: Puts the file in src/app instead of its own folder
+      - --module=app: Registers it in the imports array of the AppModule
+-  3. CONVERTING STANDALONE COMPONENTS TO MODULES;
+      - IN STANDALONE COMPONENT REMOVE: 
+       - standalone: true...........or change to false
+     - REMOVE imports array from the standalone component
+     - IN APP.MODULE :
+       - IMPORT the component
+       - Add the component to the declarations array: declarations: [AppComponent]
+       - IMPORT: import { BrowserModule } from '@angular/platform-browser';
+       - ADD: BrowserModule to imports array: imports: [BrowserModule,FormsModule],
+       - Add: bootstrap: [AppComponent]......to @ngModule decorator options object
+     - UPDATE MAIN.TS - to bootstrap appComponent
+       - import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+         import { AppModule } from './app/app.module';
+
+        -platformBrowserDynamic().bootstrapModule(AppModule)
+        .catch(err => console.error(err));
+     - TO ADD STANDALONE COMPONENTS AND MODULES
+       - ADD: the standalone component you want to use to the APP.MODULE IMPORTS ARRAY
+           - imports: [HeaderComponent]....also IMPORT to imports
+#### 71. CREATE AND USING SHARED MODULES 
+- WHY WOULD YOU NEED A SHARED MODULE?
+    - When components are SHARED throughout different FEATURES add to shared.module.ts
+      w/in a SHARED FOLDER
+- APP EXAMPLE OF SHARED MODULE
+    - Add ALL COMPONENTS that would be shared across components to a SHARED FOLDER
+    - Example: the CARD COMPONENT is shared amongst the User component and Tasks component
+      so in the shared folder that has the card component CREATE a shared.module.ts
+      and add the card component to it's declarations array
+- HOW TO CREATE A SHARED MODULE VIA CLI and ADD COMPONENTS TO IT
+   - 1. Create a new module called shared: ng generate module shared
+   - 2. Next, you can generate components within this shared module:
+        - ng generate component shared/components/add-component-name-here
+   - 3. In the shared.module.ts file, import and declare your components
+        TIP: Note the exports array - this is crucial for making your components available to other modules.
+        - import { ComponentNameComponent } from './components/component-name/
+        - @NgModule({
+             declarations: [ComponentNameComponent],
+             imports: [CommonModule],
+             exports: [ComponentNameComponent]
+           })
+    - 4. In the app.module.ts REMOVE any components that are now added to shared.module.ts
+    - 5. In the app.module.ts: in the imports array add the shared.module.ts
+         - imports: [BrowserModule, FormsModule, SharedModule]
 #### 51. Closing the new-task dialog
 #### 51. Closing the new-task dialog
 ## Code Snippets
