@@ -45,9 +45,14 @@ Angular the complete guide 2024 edition: Task-App
 - [43. Legacy Angular: ngFor and ngIf](#meeting-notes)
 
 ## Getting Started
-- create new app: ng new ____
+- Go to GitHub and create the name of your app: ________
+- In VS CODE save to:  coding-projects-github>practice-projects>angular-apps FOLDER
+- Copy and Paste Max starter files into your project folder
+- run npm install (will intall all max's dependencys and modules)
+- create new app: ng new ____ (standalone components will automatically be created)
+- To use older modules instead: ng new my-app --no-standalone
 - create new components: ng g c ____
-- if cloning repo: npm install (install modules)
+- if cloning repo: npm install (install modules, and dependencys)
 - run server: ng serve
 - [ ] Task 2
 - [x] Completed task
